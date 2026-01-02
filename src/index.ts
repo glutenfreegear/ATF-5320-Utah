@@ -118,9 +118,7 @@ function parseLocalDate(dateString: string): Date {
 }
 
 // Function to map form data to PDF widget format
-function mapFormDataToPdfFields(
-  formData: NFAFormData,
-): Map<string, string | typeof SELECTED> {
+function mapFormDataToPdfFields(formData: NFAFormData): Map<string, string | typeof SELECTED> {
   const fieldsToFill = new Map<string, string | typeof SELECTED>();
 
   // Question 1 - Form Type
@@ -146,19 +144,12 @@ function mapFormDataToPdfFields(
       .join("\n");
 
     if (applicantInfo) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page1[0].applicantaddress[0]",
-        applicantInfo,
-      );
+      fieldsToFill.set("topmostSubform[0].Page1[0].applicantaddress[0]", applicantInfo);
     }
   }
 
   // Question 3a - Responsible Person
-  if (
-    formData.q3a_fullName ||
-    formData.q3a_homeAddress ||
-    formData.q3a_sameAs2
-  ) {
+  if (formData.q3a_fullName || formData.q3a_homeAddress || formData.q3a_sameAs2) {
     let homeAddress = normalizeString(formData.q3a_homeAddress) || "";
 
     // If "SAME AS 2" is checked and address field is empty, use address from Question 2
@@ -166,18 +157,12 @@ function mapFormDataToPdfFields(
       homeAddress = normalizeString(formData.q2_address) || "";
     }
 
-    const responsibleInfo = [
-      normalizeString(formData.q3a_fullName) || "",
-      homeAddress,
-    ]
+    const responsibleInfo = [normalizeString(formData.q3a_fullName) || "", homeAddress]
       .filter((x) => x)
       .join("\n");
 
     if (responsibleInfo) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page1[0].responsibleaddress[0]",
-        responsibleInfo,
-      );
+      fieldsToFill.set("topmostSubform[0].Page1[0].responsibleaddress[0]", responsibleInfo);
     }
   }
 
@@ -185,32 +170,26 @@ function mapFormDataToPdfFields(
   if (formData.q3b_telephone) {
     fieldsToFill.set(
       "topmostSubform[0].Page1[0].telephone[0]",
-      normalizeString(formData.q3b_telephone)!,
+      normalizeString(formData.q3b_telephone)!
     );
   }
 
   // Question 3c - Email
   if (formData.q3c_email) {
-    fieldsToFill.set(
-      "topmostSubform[0].Page1[0].email[0]",
-      normalizeString(formData.q3c_email)!,
-    );
+    fieldsToFill.set("topmostSubform[0].Page1[0].email[0]", normalizeString(formData.q3c_email)!);
   }
 
   // Question 3d - Other Names
   if (formData.q3d_otherNames) {
     fieldsToFill.set(
       "topmostSubform[0].Page1[0].othernames[0]",
-      normalizeString(formData.q3d_otherNames)!,
+      normalizeString(formData.q3d_otherNames)!
     );
   }
 
   // Question 3f - SSN
   if (formData.q3f_ssn) {
-    fieldsToFill.set(
-      "topmostSubform[0].Page1[0].ssn2f[0]",
-      normalizeString(formData.q3f_ssn)!,
-    );
+    fieldsToFill.set("topmostSubform[0].Page1[0].ssn2f[0]", normalizeString(formData.q3f_ssn)!);
   }
 
   // Question 3g - Date of Birth
@@ -238,8 +217,7 @@ function mapFormDataToPdfFields(
       "AMERICAN INDIAN OR ALASKA NATIVE": "topmostSubform[0].Page1[0].aian[0]",
       ASIAN: "topmostSubform[0].Page1[0].a[0]",
       "BLACK OR AFRICAN AMERICAN": "topmostSubform[0].Page1[0].baa[0]",
-      "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER":
-        "topmostSubform[0].Page1[0].nhopi[0]",
+      "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER": "topmostSubform[0].Page1[0].nhopi[0]",
       WHITE: "topmostSubform[0].Page1[0].w[0]",
     };
     const widgetName = raceMapping[formData.q3i_race];
@@ -255,10 +233,7 @@ function mapFormDataToPdfFields(
       firearmType = normalizeString(formData.q4a_firearmType_other);
     }
     if (firearmType) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page1[0].firearmtype[0]",
-        firearmType,
-      );
+      fieldsToFill.set("topmostSubform[0].Page1[0].firearmtype[0]", firearmType);
     }
   }
 
@@ -272,35 +247,26 @@ function mapFormDataToPdfFields(
       .join("\n");
 
     if (makerInfo) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page1[0].importeraddress[0]",
-        makerInfo,
-      );
+      fieldsToFill.set("topmostSubform[0].Page1[0].importeraddress[0]", makerInfo);
     }
   }
 
   // Question 4c - Model
   if (formData.q4c_model) {
-    fieldsToFill.set(
-      "topmostSubform[0].Page1[0].Model[0]",
-      normalizeString(formData.q4c_model)!,
-    );
+    fieldsToFill.set("topmostSubform[0].Page1[0].Model[0]", normalizeString(formData.q4c_model)!);
   }
 
   // Question 4d - Caliber
   if (formData.q4d_caliber) {
     fieldsToFill.set(
       "topmostSubform[0].Page1[0].caliber[0]",
-      normalizeString(formData.q4d_caliber)!,
+      normalizeString(formData.q4d_caliber)!
     );
   }
 
   // Question 4e - Serial Number
   if (formData.q4e_serial) {
-    fieldsToFill.set(
-      "topmostSubform[0].Page1[0].serial[0]",
-      normalizeString(formData.q4e_serial)!,
-    );
+    fieldsToFill.set("topmostSubform[0].Page1[0].serial[0]", normalizeString(formData.q4e_serial)!);
   }
 
   // Question 5 - Law Enforcement
@@ -313,14 +279,9 @@ function mapFormDataToPdfFields(
   ].filter((x) => x);
 
   if (leoInfo.length > 0) {
-    fieldsToFill.set(
-      "topmostSubform[0].Page1[0].TextField3[0]",
-      leoInfo[0] || "",
-    );
-    if (leoInfo[1])
-      fieldsToFill.set("topmostSubform[0].Page1[0].TextField4[0]", leoInfo[1]);
-    if (leoInfo[2])
-      fieldsToFill.set("topmostSubform[0].Page1[0].TextField5[0]", leoInfo[2]);
+    fieldsToFill.set("topmostSubform[0].Page1[0].TextField3[0]", leoInfo[0] || "");
+    if (leoInfo[1]) fieldsToFill.set("topmostSubform[0].Page1[0].TextField4[0]", leoInfo[1]);
+    if (leoInfo[2]) fieldsToFill.set("topmostSubform[0].Page1[0].TextField5[0]", leoInfo[2]);
   }
 
   // Question 6 - Prohibitors
@@ -379,9 +340,7 @@ function mapFormDataToPdfFields(
     ],
   };
 
-  for (const [formField, [yesWidget, noWidget]] of Object.entries(
-    prohibitorMapping,
-  )) {
+  for (const [formField, [yesWidget, noWidget]] of Object.entries(prohibitorMapping)) {
     const value = formData[formField as keyof NFAFormData];
     if (value === "YES") {
       fieldsToFill.set(yesWidget, SELECTED);
@@ -405,7 +364,7 @@ function mapFormDataToPdfFields(
   if (formData.q7_alienNumber) {
     fieldsToFill.set(
       "topmostSubform[0].Page2[0].TextFieldalien[0]",
-      normalizeString(formData.q7_alienNumber)!,
+      normalizeString(formData.q7_alienNumber)!
     );
   }
 
@@ -416,7 +375,7 @@ function mapFormDataToPdfFields(
       if (formData.q8_upinNumber) {
         fieldsToFill.set(
           "topmostSubform[0].Page2[0].please17[0]",
-          normalizeString(formData.q8_upinNumber)!,
+          normalizeString(formData.q8_upinNumber)!
         );
       }
     } else if (formData.q8_hasUpin === "NO") {
@@ -433,13 +392,10 @@ function mapFormDataToPdfFields(
       fieldsToFill.set("topmostSubform[0].Page2[0].usacheckbox[0]", SELECTED);
     }
     if (citizenship.includes("OTHER") && formData.q9a_citizenship_other) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page2[0].othercountrycheckbox[0]",
-        SELECTED,
-      );
+      fieldsToFill.set("topmostSubform[0].Page2[0].othercountrycheckbox[0]", SELECTED);
       fieldsToFill.set(
         "topmostSubform[0].Page2[0].Othercountry[0]",
-        normalizeString(formData.q9a_citizenship_other)!,
+        normalizeString(formData.q9a_citizenship_other)!
       );
     }
   }
@@ -448,24 +404,18 @@ function mapFormDataToPdfFields(
   if (formData.q9b_birthState) {
     fieldsToFill.set(
       "topmostSubform[0].Page2[0].statebirth[0]",
-      normalizeString(formData.q9b_birthState)!,
+      normalizeString(formData.q9b_birthState)!
     );
   }
 
   // Question 9c - Country of Birth
   if (formData.q9c_birthCountry) {
     if (formData.q9c_birthCountry === "USA") {
+      fieldsToFill.set("topmostSubform[0].Page2[0].statecountry[0]", "UNITED STATES OF AMERICA");
+    } else if (formData.q9c_birthCountry === "OTHER" && formData.q9c_birthCountry_other) {
       fieldsToFill.set(
         "topmostSubform[0].Page2[0].statecountry[0]",
-        "UNITED STATES OF AMERICA",
-      );
-    } else if (
-      formData.q9c_birthCountry === "OTHER" &&
-      formData.q9c_birthCountry_other
-    ) {
-      fieldsToFill.set(
-        "topmostSubform[0].Page2[0].statecountry[0]",
-        normalizeString(formData.q9c_birthCountry_other)!,
+        normalizeString(formData.q9c_birthCountry_other)!
       );
     }
   }
@@ -505,7 +455,7 @@ async function generatePDF(): Promise<void> {
 
     console.log("Loading PDF form from static file...");
     const response = await fetch(
-      "./static/f_5320.23_national_firearms_act_nfa_responsible_person_questionnaire.pdf",
+      "./static/f_5320.23_national_firearms_act_nfa_responsible_person_questionnaire.pdf"
     );
 
     if (!response.ok) {
@@ -517,7 +467,7 @@ async function generatePDF(): Promise<void> {
     console.log("Loading PDF document...");
     const doc = mupdf.Document.openDocument(
       new Uint8Array(pdfBytes),
-      "application/pdf",
+      "application/pdf"
     ) as mupdf.PDFDocument;
 
     if (!doc.isPDF()) {
@@ -542,20 +492,16 @@ async function generatePDF(): Promise<void> {
     }
 
     console.log("Applying alignment changes...");
-    const alignmentChanges: Array<[string, [number, number, number, number]]> =
-      [
-        ["topmostSubform[0].Page2[0].no17[0]", [2.5, 0, 2.5, 0]],
-        ["topmostSubform[0].Page2[0].usacheckbox[0]", [1.5, 0, 1.5, 0]],
-        ["topmostSubform[0].Page1[0].nhl[0]", [1, 0, 1, 0]],
-        ["topmostSubform[0].Page1[0].w[0]", [1, 0, 1, 0]],
-        ["topmostSubform[0].Page1[0].#field[24]", [0, -0.5, 0, 0.5]],
-      ];
+    const alignmentChanges: Array<[string, [number, number, number, number]]> = [
+      ["topmostSubform[0].Page2[0].no17[0]", [2.5, 0, 2.5, 0]],
+      ["topmostSubform[0].Page2[0].usacheckbox[0]", [1.5, 0, 1.5, 0]],
+      ["topmostSubform[0].Page1[0].nhl[0]", [1, 0, 1, 0]],
+      ["topmostSubform[0].Page1[0].w[0]", [1, 0, 1, 0]],
+      ["topmostSubform[0].Page1[0].#field[24]", [0, -0.5, 0, 0.5]],
+    ];
 
     for (const [widgetName, rectDeltas] of alignmentChanges) {
-      for (const widgetNameVariant of [
-        widgetName,
-        getCleoWidgetVariant(widgetName),
-      ]) {
+      for (const widgetNameVariant of [widgetName, getCleoWidgetVariant(widgetName)]) {
         const widget = widgets.get(widgetNameVariant);
         if (widget) {
           const currentRect = widget.getRect();
@@ -573,15 +519,10 @@ async function generatePDF(): Promise<void> {
 
     console.log("Filling form fields...");
     for (const [widgetName, answer] of fieldsToFill) {
-      for (const widgetNameVariant of [
-        widgetName,
-        getCleoWidgetVariant(widgetName),
-      ]) {
+      for (const widgetNameVariant of [widgetName, getCleoWidgetVariant(widgetName)]) {
         const widget = widgets.get(widgetNameVariant);
         if (widget) {
-          console.log(
-            `Filling widget: ${widgetNameVariant} (type: ${widget.getFieldType()})`,
-          );
+          console.log(`Filling widget: ${widgetNameVariant} (type: ${widget.getFieldType()})`);
           try {
             if (answer === SELECTED) {
               // For checkboxes/radio buttons, we need to check them
@@ -590,7 +531,7 @@ async function generatePDF(): Promise<void> {
                 console.log(`Toggled ${widgetNameVariant}, result: ${result}`);
               } else {
                 console.log(
-                  `Widget ${widgetNameVariant} is not a checkbox/radio button, skipping SELECTED`,
+                  `Widget ${widgetNameVariant} is not a checkbox/radio button, skipping SELECTED`
                 );
               }
             } else {
@@ -600,32 +541,30 @@ async function generatePDF(): Promise<void> {
               if (widget.isText()) {
                 const result = widget.setTextValue(stringValue);
                 console.log(
-                  `Set text value for ${widgetNameVariant}: "${stringValue}", result: ${result}`,
+                  `Set text value for ${widgetNameVariant}: "${stringValue}", result: ${result}`
                 );
               } else if (widget.isChoice()) {
                 const result = widget.setChoiceValue(stringValue);
                 console.log(
-                  `Set choice value for ${widgetNameVariant}: "${stringValue}", result: ${result}`,
+                  `Set choice value for ${widgetNameVariant}: "${stringValue}", result: ${result}`
                 );
               } else {
                 // Try text value as fallback for unknown types
                 try {
                   const result = widget.setTextValue(stringValue);
                   console.log(
-                    `Set text value (fallback) for ${widgetNameVariant}: "${stringValue}", result: ${result}`,
+                    `Set text value (fallback) for ${widgetNameVariant}: "${stringValue}", result: ${result}`
                   );
                 } catch (e) {
                   console.log(
-                    `Failed to set value for ${widgetNameVariant}, widget type: ${widget.getFieldType()}`,
+                    `Failed to set value for ${widgetNameVariant}, widget type: ${widget.getFieldType()}`
                   );
                 }
               }
             }
 
             const updateResult = widget.update();
-            console.log(
-              `Updated widget ${widgetNameVariant}, result: ${updateResult}`,
-            );
+            console.log(`Updated widget ${widgetNameVariant}, result: ${updateResult}`);
           } catch (error) {
             console.error(`Error filling widget ${widgetNameVariant}:`, error);
           }
@@ -669,9 +608,7 @@ async function generatePDF(): Promise<void> {
     console.log("PDF generated and download initiated successfully!");
   } catch (error) {
     console.error("Error generating PDF:", error);
-    alert(
-      `Error generating PDF: ${error instanceof Error ? error.message : String(error)}`,
-    );
+    alert(`Error generating PDF: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
@@ -682,6 +619,4 @@ console.log("mupdf loaded successfully");
 // Make generatePDF function available globally
 window.generatePDF = generatePDF;
 
-console.log(
-  "PDF generation function is ready. The form can now generate PDFs.",
-);
+console.log("PDF generation function is ready. The form can now generate PDFs.");

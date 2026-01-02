@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (el.name.endsWith("_other")) {
             const baseName = el.name.replace("_other", "");
             const controls = form.elements[baseName];
-            const otherControl = Array.from(
-              controls.length ? controls : [controls],
-            ).find((r) => r.value === "OTHER");
+            const otherControl = Array.from(controls.length ? controls : [controls]).find(
+              (r) => r.value === "OTHER"
+            );
             if (otherControl && otherControl.checked && el.value) {
               data[el.name] = el.value.toUpperCase();
             }
@@ -198,16 +198,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const elements = form.elements[fieldName];
       if (!elements) continue;
 
-      const elementList =
-        elements.length && !elements.tagName ? Array.from(elements) : [elements];
+      const elementList = elements.length && !elements.tagName ? Array.from(elements) : [elements];
       elementList.forEach((el) => {
         el.disabled = true;
         el.classList.add("prefill-locked");
 
         // Add lock icon indicator
-        const container = el.closest(
-          ".question-group, .radio-group, .checkbox-group, .sub-input",
-        );
+        const container = el.closest(".question-group, .radio-group, .checkbox-group, .sub-input");
         if (container && !container.querySelector(".prefill-lock-indicator")) {
           const indicator = document.createElement("span");
           indicator.className = "prefill-lock-indicator";
@@ -244,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (parentElement && otherElement) {
         const otherSelected = Array.from(
-          parentElement.length ? parentElement : [parentElement],
+          parentElement.length ? parentElement : [parentElement]
         ).some((el) => el.checked && el.value === "OTHER");
 
         if (otherSelected) {
@@ -273,11 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace(/=+$/, ""); // Remove trailing '='
       history.replaceState(null, "", "#" + base64String);
     } else {
-      history.replaceState(
-        null,
-        "",
-        window.location.pathname + window.location.search,
-      );
+      history.replaceState(null, "", window.location.pathname + window.location.search);
     }
   };
 
@@ -467,12 +460,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Q6: All No button
   document.getElementById("q6_allNo").addEventListener("click", () => {
     const prohibitors = document.getElementById("q6_prohibitors");
-    prohibitors
-      .querySelectorAll('input[type="radio"][value="NO"]')
-      .forEach((radio) => {
-        radio.checked = true;
-        radio.dispatchEvent(new Event("change", { bubbles: true }));
-      });
+    prohibitors.querySelectorAll('input[type="radio"][value="NO"]').forEach((radio) => {
+      radio.checked = true;
+      radio.dispatchEvent(new Event("change", { bubbles: true }));
+    });
     const q6m2na = document.getElementById("q6m2-na");
     q6m2na.checked = true;
     q6m2na.dispatchEvent(new Event("change", { bubbles: true }));
@@ -536,9 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isOther) q9cOtherText.value = "";
     if (isOther) q9cOtherText.focus();
   };
-  q9cBirthCountryRadios.forEach((r) =>
-    r.addEventListener("change", updateQ9cInput),
-  );
+  q9cBirthCountryRadios.forEach((r) => r.addEventListener("change", updateQ9cInput));
 
   // Fill shared blurbs from template
   const blurbTemplate = document.getElementById("blurb-prohibited-person");
@@ -551,21 +540,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- TOUCH-FRIENDLY BLURB FUNCTIONALITY ---
   const isTouchDevice = () => {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
   };
 
   const initializeBlurbHandlers = () => {
-    const blurbTriggers = document.querySelectorAll('.blurb-trigger');
+    const blurbTriggers = document.querySelectorAll(".blurb-trigger");
     let currentlyOpenBlurb = null;
 
     // Function to hide all blurbs
     const hideAllBlurbs = () => {
-      blurbTriggers.forEach(trigger => {
-        const blurb = trigger.querySelector('.blurb-content');
+      blurbTriggers.forEach((trigger) => {
+        const blurb = trigger.querySelector(".blurb-content");
         if (blurb) {
-          blurb.classList.remove('touch-visible');
-          trigger.setAttribute('aria-expanded', 'false');
-          blurb.setAttribute('aria-hidden', 'true');
+          blurb.classList.remove("touch-visible");
+          trigger.setAttribute("aria-expanded", "false");
+          blurb.setAttribute("aria-hidden", "true");
         }
       });
       currentlyOpenBlurb = null;
@@ -573,44 +562,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to show a specific blurb
     const showBlurb = (trigger) => {
-      const blurb = trigger.querySelector('.blurb-content');
+      const blurb = trigger.querySelector(".blurb-content");
       if (blurb) {
-        blurb.classList.add('touch-visible');
-        trigger.setAttribute('aria-expanded', 'true');
-        blurb.setAttribute('aria-hidden', 'false');
+        blurb.classList.add("touch-visible");
+        trigger.setAttribute("aria-expanded", "true");
+        blurb.setAttribute("aria-hidden", "false");
         currentlyOpenBlurb = trigger;
       }
     };
 
     // Add ARIA attributes for accessibility
-    blurbTriggers.forEach(trigger => {
-      const blurb = trigger.querySelector('.blurb-content');
+    blurbTriggers.forEach((trigger) => {
+      const blurb = trigger.querySelector(".blurb-content");
       if (blurb) {
         // Add unique IDs for proper ARIA relationship
-        const triggerId = 'blurb-trigger-' + Math.random().toString(36).substr(2, 9);
-        const blurbId = 'blurb-content-' + Math.random().toString(36).substr(2, 9);
-        
-        trigger.setAttribute('id', triggerId);
-        trigger.setAttribute('aria-describedby', blurbId);
-        trigger.setAttribute('aria-expanded', 'false');
-        trigger.setAttribute('role', 'button');
-        trigger.setAttribute('tabindex', '0');
-        
-        blurb.setAttribute('id', blurbId);
-        blurb.setAttribute('role', 'tooltip');
-        blurb.setAttribute('aria-hidden', 'true');
+        const triggerId = "blurb-trigger-" + Math.random().toString(36).substr(2, 9);
+        const blurbId = "blurb-content-" + Math.random().toString(36).substr(2, 9);
+
+        trigger.setAttribute("id", triggerId);
+        trigger.setAttribute("aria-describedby", blurbId);
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("role", "button");
+        trigger.setAttribute("tabindex", "0");
+
+        blurb.setAttribute("id", blurbId);
+        blurb.setAttribute("role", "tooltip");
+        blurb.setAttribute("aria-hidden", "true");
       }
     });
 
     // For touch devices, use click/tap events
     if (isTouchDevice()) {
-      blurbTriggers.forEach(trigger => {
-        const blurb = trigger.querySelector('.blurb-content');
+      blurbTriggers.forEach((trigger) => {
+        const blurb = trigger.querySelector(".blurb-content");
         if (blurb) {
-          trigger.addEventListener('click', (e) => {
+          trigger.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
+
             if (currentlyOpenBlurb === trigger) {
               // If this blurb is already open, close it
               hideAllBlurbs();
@@ -622,11 +611,11 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
           // Handle keyboard navigation
-          trigger.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
+          trigger.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
               trigger.click();
-            } else if (e.key === 'Escape') {
+            } else if (e.key === "Escape") {
               hideAllBlurbs();
             }
           });
@@ -634,15 +623,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Close blurbs when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.blurb-trigger')) {
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".blurb-trigger")) {
           hideAllBlurbs();
         }
       });
 
       // Close blurbs when scrolling (mobile UX improvement)
       let scrollTimer;
-      window.addEventListener('scroll', () => {
+      window.addEventListener("scroll", () => {
         if (currentlyOpenBlurb) {
           clearTimeout(scrollTimer);
           scrollTimer = setTimeout(hideAllBlurbs, 100);
@@ -650,23 +639,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } else {
       // For non-touch devices, enhance hover with keyboard support
-      blurbTriggers.forEach(trigger => {
-        trigger.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+      blurbTriggers.forEach((trigger) => {
+        trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            const blurb = trigger.querySelector('.blurb-content');
+            const blurb = trigger.querySelector(".blurb-content");
             if (blurb) {
-              blurb.style.display = blurb.style.display === 'block' ? 'none' : 'block';
-              trigger.setAttribute('aria-expanded', blurb.style.display === 'block' ? 'true' : 'false');
+              blurb.style.display = blurb.style.display === "block" ? "none" : "block";
+              trigger.setAttribute(
+                "aria-expanded",
+                blurb.style.display === "block" ? "true" : "false"
+              );
             }
           }
         });
 
-        trigger.addEventListener('blur', () => {
-          const blurb = trigger.querySelector('.blurb-content');
+        trigger.addEventListener("blur", () => {
+          const blurb = trigger.querySelector(".blurb-content");
           if (blurb) {
-            blurb.style.display = 'none';
-            trigger.setAttribute('aria-expanded', 'false');
+            blurb.style.display = "none";
+            trigger.setAttribute("aria-expanded", "false");
           }
         });
       });
@@ -678,11 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clear Form Button
   document.getElementById("clear-form").addEventListener("click", () => {
-    if (
-      confirm(
-        "Are you sure you want to clear all fields? This cannot be undone.",
-      )
-    ) {
+    if (confirm("Are you sure you want to clear all fields? This cannot be undone.")) {
       form.reset();
       // Reapply prefill configuration to restore locked fields
       applyPrefillConfig();
@@ -752,39 +740,33 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Generate PDF button
-  document
-    .getElementById("generate-pdf")
-    .addEventListener("click", async () => {
-      const isFormValid = runAllValidations();
-      if (!isFormValid) {
-        alert(
-          "PLEASE FIX THE HIGHLIGHTED VALIDATION ERRORS BEFORE GENERATING THE PDF.",
-        );
-        const firstInvalid = form.querySelector(".invalid-field");
-        if (firstInvalid) {
-          firstInvalid
-            .closest(".question-group")
-            .scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-        return;
+  document.getElementById("generate-pdf").addEventListener("click", async () => {
+    const isFormValid = runAllValidations();
+    if (!isFormValid) {
+      alert("PLEASE FIX THE HIGHLIGHTED VALIDATION ERRORS BEFORE GENERATING THE PDF.");
+      const firstInvalid = form.querySelector(".invalid-field");
+      if (firstInvalid) {
+        firstInvalid
+          .closest(".question-group")
+          .scrollIntoView({ behavior: "smooth", block: "center" });
       }
+      return;
+    }
 
-      // Call the TypeScript generatePDF function
-      try {
-        if (typeof window.generatePDF === "function") {
-          await window.generatePDF();
-        } else {
-          alert(
-            "PDF generation function not loaded. Please ensure the TypeScript module is properly loaded.",
-          );
-        }
-      } catch (error) {
-        console.error("Error generating PDF:", error);
+    // Call the TypeScript generatePDF function
+    try {
+      if (typeof window.generatePDF === "function") {
+        await window.generatePDF();
+      } else {
         alert(
-          `Error generating PDF: ${error instanceof Error ? error.message : String(error)}`,
+          "PDF generation function not loaded. Please ensure the TypeScript module is properly loaded."
         );
       }
-    });
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert(`Error generating PDF: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  });
 
   // --- INITIALIZATION ---
   const runAllUIUpdates = () => {
@@ -792,16 +774,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateQ6m2();
     updateUpinInput();
     updateQ9cInput();
-    form.elements.q4a_firearmType.forEach((radio) =>
-      radio.dispatchEvent(new Event("change")),
-    );
-    form.elements.q9a_citizenship.forEach((cb) =>
-      cb.dispatchEvent(new Event("change")),
-    );
+    form.elements.q4a_firearmType.forEach((radio) => radio.dispatchEvent(new Event("change")));
+    form.elements.q9a_citizenship.forEach((cb) => cb.dispatchEvent(new Event("change")));
     form.querySelectorAll("textarea").forEach(autoResizeTextarea);
-    Object.keys(validations).forEach((fieldName) =>
-      validateField(form.elements[fieldName]),
-    );
+    Object.keys(validations).forEach((fieldName) => validateField(form.elements[fieldName]));
 
     // Set certification date if it's empty
     const certDate = document.getElementById("certificationDate");
@@ -811,9 +787,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Normalize all existing text values to uppercase on initialization
     form
-      .querySelectorAll(
-        'input[type="text"], input[type="email"], input[type="tel"], textarea',
-      )
+      .querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea')
       .forEach(normalizeToUppercase);
   };
 

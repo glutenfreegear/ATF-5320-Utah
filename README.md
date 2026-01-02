@@ -46,6 +46,7 @@ npm run type-check
 ## Development
 
 The project uses:
+
 - **TypeScript** with strict configuration
 - **Webpack** for bundling with WebAssembly support
 - **mupdf.js** for client-side PDF manipulation
